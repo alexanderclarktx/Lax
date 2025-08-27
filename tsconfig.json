@@ -30,6 +30,6 @@
   // make @lax resolve to src/
   "include": [
     "src/**/*",
-    "examples/**/*"
+    "docs/**/*"
   ]
 }

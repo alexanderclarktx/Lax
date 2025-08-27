@@ -42,7 +42,7 @@ var LaxDiv = (props) => {
   }
   return { e: div, update: props.update, state: props.state };
 };
-// examples/ball.ts
+// docs/ball.ts
 var lax = Lax({});
 var Ball = (color) => LaxDiv({
   state: {
