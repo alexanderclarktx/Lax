@@ -12,7 +12,7 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
   const ball = LaxDiv<BallState>({
     state: {
-      position: { x: 0, y: 0 },
+      position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
       velocity: { x: Math.random() * 2 - 4, y: 0 },
       radius: 8,
       gravity: 0.04,
