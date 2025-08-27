@@ -2,7 +2,7 @@ import { LaxElement } from "@lax"
 
 export type Lax<State extends {} = {}> = {
   state: State
-  append: (element: LaxElement) => boolean
+  append: (...element: LaxElement[]) => boolean
 }
 
 export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
