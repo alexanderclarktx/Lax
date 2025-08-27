@@ -25,5 +25,9 @@ export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<
     div.ontouchcancel = (e) => e.preventDefault()
   }
 
-  return { e: div, update: props.update, state: props.state }
+  if (props.callbacks) {
+    div.onpointerdown = props.callbacks.onPointerDown
+  }
+
+  return { e: div, update: props.update, state: props.state, callbacks: props.callbacks }
 }

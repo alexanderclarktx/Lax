@@ -44,23 +44,36 @@ var LaxDiv = (props) => {
     div.ontouchmove = (e) => e.preventDefault();
     div.ontouchcancel = (e) => e.preventDefault();
   }
-  return { e: div, update: props.update, state: props.state };
+  if (props.callbacks) {
+    div.onpointerdown = props.callbacks.onPointerDown;
+  }
+  return { e: div, update: props.update, state: props.state, callbacks: props.callbacks };
 };
 // src/library/Ball.ts
 var Ball = (color) => {
   const ball = LaxDiv({
     state: {
       position: { x: 0, y: 0 },
-      velocity: { x: Math.random() * 2 - 4, y: Math.random() * 5 - 10 },
+      velocity: { x: Math.random() - 2, y: Math.random() * 5 - 10 },
       radius: 20,
-      gravity: 0.05
+      gravity: 0.05,
+      frozen: false
     },
     style: {
       backgroundColor: color,
       borderRadius: "50%",
-      border: "1px solid white"
+      border: "1px solid white",
+      pointerEvents: "auto"
+    },
+    callbacks: {
+      onPointerDown: () => {
+        ball.state.frozen = !ball.state.frozen;
+        console.log(ball.state.frozen);
+      }
     },
     update: (div, state) => {
+      if (state.frozen)
+        return;
       div.style.width = `${state.radius * 2}px`;
       div.style.height = `${state.radius * 2}px`;
       div.style.top = `${state.position.y}px`;
@@ -78,11 +91,11 @@ var Ball = (color) => {
       }
       if (state.position.y < 0) {
         state.position.y = 0;
-        state.velocity.y *= -1;
+        state.velocity.y *= -0.9;
       }
       if (state.position.y + state.radius * 2 > window.innerHeight) {
         state.position.y = window.innerHeight - state.radius * 2;
-        state.velocity.y *= -1;
+        state.velocity.y *= -0.9;
       }
     }
   });
