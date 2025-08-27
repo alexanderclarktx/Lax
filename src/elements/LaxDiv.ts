@@ -1,4 +1,4 @@
-import { CSS, LaxElement, LaxUpdate } from "@lax"
+import { CSS, LaxElement, LaxElementProps, LaxUpdate } from "@lax"
 
 const defaults: CSS = {
   position: "absolute",
@@ -8,24 +8,24 @@ const defaults: CSS = {
   touchAction: "none"
 }
 
-export type LaxDiv = LaxElement<HTMLDivElement>
+export type LaxDiv<S extends {}> = LaxElement<HTMLDivElement, S>
 
-export const LaxDiv = (style: CSS = {}, update?: LaxUpdate<HTMLDivElement>): LaxDiv => {
+export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<S> => {
   const div = document.createElement("div")
 
   Object.assign(div.style, defaults)
-  Object.assign(div.style, style)
+  Object.assign(div.style, props.style)
 
   div.oncontextmenu = (e) => e.preventDefault()
 
-  if (style.touchAction === undefined) {
+  if (props.style?.touchAction === undefined) {
     div.ontouchstart = (e) => e.preventDefault()
     div.ontouchend = (e) => e.preventDefault()
     div.ontouchmove = (e) => e.preventDefault()
     div.ontouchcancel = (e) => e.preventDefault()
   }
 
-  return { e: div, update }
+  return { e: div, update: props.update, state: props.state }
 }
 
 // export type RefreshableDiv = { div: LaxDiv, update: () => void }

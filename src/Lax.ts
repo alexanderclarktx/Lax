@@ -8,6 +8,8 @@ export type Lax<State extends {} = {}> = {
 export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
 
   document.body.style.backgroundColor = "black"
+  document.body.style.overflowX = "hidden"
+  document.body.style.overflowY = "hidden"
 
   let children: LaxElement[] = []
 
@@ -24,7 +26,7 @@ export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
     requestAnimationFrame(loop)
 
     for (const element of children) {
-      element.update?.(element.e)
+      element.update?.(element.e, element.state)
     }
   }
   requestAnimationFrame(loop)

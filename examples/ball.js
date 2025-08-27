@@ -1,6 +1,8 @@
 // src/Lax.ts
 var Lax = (state) => {
   document.body.style.backgroundColor = "black";
+  document.body.style.overflowX = "hidden";
+  document.body.style.overflowY = "hidden";
   let children = [];
   const lax = {
     state,
@@ -13,7 +15,7 @@ var Lax = (state) => {
   const loop = () => {
     requestAnimationFrame(loop);
     for (const element of children) {
-      element.update?.(element.e);
+      element.update?.(element.e, element.state);
     }
   };
   requestAnimationFrame(loop);
@@ -27,49 +29,38 @@ var defaults = {
   outline: "none",
   touchAction: "none"
 };
-var LaxDiv = (style = {}, update) => {
+var LaxDiv = (props) => {
   const div = document.createElement("div");
   Object.assign(div.style, defaults);
-  Object.assign(div.style, style);
+  Object.assign(div.style, props.style);
   div.oncontextmenu = (e) => e.preventDefault();
-  if (style.touchAction === undefined) {
+  if (props.style?.touchAction === undefined) {
     div.ontouchstart = (e) => e.preventDefault();
     div.ontouchend = (e) => e.preventDefault();
     div.ontouchmove = (e) => e.preventDefault();
     div.ontouchcancel = (e) => e.preventDefault();
   }
-  return { e: div, update };
+  return { e: div, update: props.update, state: props.state };
 };
 // examples/ball.ts
-var lax = Lax({
-  position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-  velocity: { x: Math.random() * 5 - 10, y: Math.random() * 5 },
-  radius: 10,
-  gravity: 0.1
-});
+var lax = Lax({});
 var ball = LaxDiv({
-  backgroundColor: "green",
-  width: `${lax.state.radius * 2}px`,
-  height: `${lax.state.radius * 2}px`,
-  borderRadius: "50%",
-  border: "1px solid white"
-}, (div) => {
-  lax.state.velocity.y += lax.state.gravity;
-  lax.state.position.y += lax.state.velocity.y;
-  lax.state.position.x += lax.state.velocity.x;
-  if (lax.state.position.y + lax.state.radius > window.innerHeight) {
-    lax.state.position.y = window.innerHeight - lax.state.radius;
-    lax.state.velocity.y *= -1;
+  state: {
+    position: { x: 0, y: 0 },
+    velocity: { x: 0, y: 0 },
+    radius: 20,
+    gravity: 0.5
+  },
+  style: {
+    backgroundColor: "#00ffaa",
+    borderRadius: "50%",
+    border: "1px solid white"
+  },
+  update: (div, state) => {
+    div.style.width = `${state.radius * 2}px`;
+    div.style.height = `${state.radius * 2}px`;
+    div.style.top = `${state.position.y}px`;
+    div.style.left = `${state.position.x}px`;
   }
-  if (lax.state.position.x + lax.state.radius > window.innerWidth) {
-    lax.state.position.x = window.innerWidth - lax.state.radius;
-    lax.state.velocity.x *= -1;
-  }
-  if (lax.state.position.x < 0) {
-    lax.state.position.x = 0;
-    lax.state.velocity.x *= -1;
-  }
-  div.style.top = `${lax.state.position.y}px`;
-  div.style.left = `${lax.state.position.x}px`;
 });
 lax.append(ball);
