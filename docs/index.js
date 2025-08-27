@@ -60,15 +60,15 @@ var Ball = (color) => {
   const ball = LaxDiv({
     state: {
       position: { x: 0, y: 0 },
-      velocity: { x: Math.random() - 2, y: 0 },
-      radius: 20,
+      velocity: { x: Math.random() * 2 - 4, y: 0 },
+      radius: 8,
       gravity: 0.04,
       frozen: false
     },
     style: {
       backgroundColor: color,
       borderRadius: "50%",
-      border: "1px solid white",
+      border: "2px solid white",
       pointerEvents: "auto"
     },
     callbacks: {
@@ -82,34 +82,35 @@ var Ball = (color) => {
     update: (div, state) => {
       if (state.frozen)
         return;
-      div.style.width = `${state.radius * 2}px`;
-      div.style.height = `${state.radius * 2}px`;
+      div.style.width = `${state.radius}dvh`;
+      div.style.height = `${state.radius}dvh`;
       div.style.top = `${state.position.y}px`;
       div.style.left = `${state.position.x}px`;
       state.velocity.y += state.gravity;
       state.position.x += state.velocity.x;
       state.position.y += state.velocity.y;
+      const { width, height } = div.getBoundingClientRect();
       if (state.position.x < 0) {
         state.position.x = 0;
         state.velocity.x *= -1;
       }
-      if (state.position.x + state.radius * 2 > window.innerWidth) {
-        state.position.x = window.innerWidth - state.radius * 2;
+      if (state.position.x + width > window.innerWidth) {
+        state.position.x = window.innerWidth - width;
         state.velocity.x *= -1;
       }
       if (state.position.y < 0) {
         state.position.y = 0;
         state.velocity.y *= -1;
       }
-      if (state.position.y + state.radius * 2 > window.innerHeight) {
-        state.position.y = window.innerHeight - state.radius * 2;
+      if (state.position.y + height > window.innerHeight) {
+        state.position.y = window.innerHeight - height;
         state.velocity.y *= -1;
       }
     }
   });
   return ball;
 };
-// docs/ball.ts
+// docs/index.ts
 var lax = Lax({});
 lax.append(Ball("#00ffaa"));
 lax.append(Ball("#ffaa00"));

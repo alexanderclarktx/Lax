@@ -13,15 +13,15 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
   const ball = LaxDiv<BallState>({
     state: {
       position: { x: 0, y: 0 },
-      velocity: { x: Math.random() - 2, y: 0 },
-      radius: 20,
+      velocity: { x: Math.random() * 2 - 4, y: 0 },
+      radius: 8,
       gravity: 0.04,
       frozen: false
     },
     style: {
       backgroundColor: color,
       borderRadius: "50%",
-      border: "1px solid white",
+      border: "2px solid white",
       pointerEvents: "auto"
     },
     callbacks: {
@@ -36,8 +36,8 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
       if (state.frozen) return
 
       // shape
-      div.style.width = `${state.radius * 2}px`
-      div.style.height = `${state.radius * 2}px`
+      div.style.width = `${state.radius}dvh`
+      div.style.height = `${state.radius}dvh`
 
       // position
       div.style.top = `${state.position.y}px`
@@ -52,13 +52,15 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
       // bounces
 
+      const {width, height} = div.getBoundingClientRect()
+
       if (state.position.x < 0) {
         state.position.x = 0
         state.velocity.x *= -1
       }
 
-      if (state.position.x + state.radius * 2 > window.innerWidth) {
-        state.position.x = window.innerWidth - state.radius * 2
+      if (state.position.x + width > window.innerWidth) {
+        state.position.x = window.innerWidth - width
         state.velocity.x *= -1
       }
 
@@ -67,8 +69,8 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
         state.velocity.y *= -1
       }
 
-      if (state.position.y + state.radius * 2 > window.innerHeight) {
-        state.position.y = window.innerHeight - state.radius * 2
+      if (state.position.y + height > window.innerHeight) {
+        state.position.y = window.innerHeight - height
         state.velocity.y *= -1
       }
     }
