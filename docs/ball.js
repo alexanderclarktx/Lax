@@ -42,8 +42,7 @@ var LaxDiv = (props) => {
   }
   return { e: div, update: props.update, state: props.state };
 };
-// docs/ball.ts
-var lax = Lax({});
+// src/library/Ball.ts
 var Ball = (color) => LaxDiv({
   state: {
     position: { x: 0, y: 0 },
@@ -82,6 +81,8 @@ var Ball = (color) => LaxDiv({
     }
   }
 });
+// docs/ball.ts
+var lax = Lax({});
 lax.append(Ball("#00ffaa"));
 lax.append(Ball("#ffaa00"));
 lax.append(Ball("#aa00ff"));
