@@ -1,4 +1,4 @@
-import { CSS, LaxElement, LaxElementProps, LaxUpdate } from "@lax"
+import { CSS, LaxElement, LaxElementProps } from "@lax"
 
 const defaults: CSS = {
   position: "absolute",
@@ -27,5 +27,3 @@ export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<
 
   return { e: div, update: props.update, state: props.state }
 }
-
-// export type RefreshableDiv = { div: LaxDiv, update: () => void }
