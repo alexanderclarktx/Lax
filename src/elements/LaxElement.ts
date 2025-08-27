@@ -5,7 +5,9 @@ export type LaxElement<E extends HTMLElement = HTMLElement, S extends {} = {}> =
   state: S
   update: undefined | LaxUpdate<E, S>
   callbacks: undefined | {
-    onPointerDown: () => void
+    onPointerDown?: () => void
+    onPointerOver?: () => void
+    onPointerOut?: () => void
   }
 }
 
@@ -14,7 +16,9 @@ export type LaxElementProps<LE extends LaxElement> = {
   update?: LaxUpdate<LE["e"], LE["state"]>
   state: LE["state"]
   callbacks?: {
-    onPointerDown: () => void
+    onPointerDown?: () => void
+    onPointerOver?: () => void
+    onPointerOut?: () => void
   }
 }
 

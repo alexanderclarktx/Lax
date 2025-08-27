@@ -45,7 +45,13 @@ var LaxDiv = (props) => {
     div.ontouchcancel = (e) => e.preventDefault();
   }
   if (props.callbacks) {
-    div.onpointerdown = props.callbacks.onPointerDown;
+    const { onPointerDown, onPointerOver, onPointerOut } = props.callbacks;
+    if (onPointerDown)
+      div.onpointerdown = onPointerDown;
+    if (onPointerOver)
+      div.onpointerover = onPointerOver;
+    if (onPointerOut)
+      div.onpointerout = onPointerOut;
   }
   return { e: div, update: props.update, state: props.state, callbacks: props.callbacks };
 };
