@@ -1,30 +1,28 @@
 // src/Lax.ts
 var Lax = (state) => {
   let ready = false;
-  let children = [];
   const lax = {
     state,
+    elements: [],
     append: (element) => {
       document.body.appendChild(element.e);
-      children.push(element);
+      lax.elements.push(element);
       return true;
     }
   };
-  const loop = () => {
-    requestAnimationFrame(loop);
-    if (!ready) {
-      if (document.body) {
-        document.body.style.backgroundColor = "black";
-        document.body.style.overflowX = "hidden";
-        document.body.style.overflowY = "hidden";
-        ready = true;
-      }
+  const update = () => {
+    requestAnimationFrame(update);
+    if (!ready && document.body) {
+      document.body.style.backgroundColor = "black";
+      document.body.style.overflowX = "hidden";
+      document.body.style.overflowY = "hidden";
+      ready = true;
     }
-    for (const element of children) {
+    for (const element of lax.elements) {
       element.update?.(element.e, element.state);
     }
   };
-  requestAnimationFrame(loop);
+  requestAnimationFrame(update);
   return lax;
 };
 // src/elements/LaxDiv.ts
@@ -46,47 +44,71 @@ var LaxDiv = (props) => {
     div.ontouchmove = (e) => e.preventDefault();
     div.ontouchcancel = (e) => e.preventDefault();
   }
-  return { e: div, update: props.update, state: props.state };
+  if (props.callbacks) {
+    const { onPointerDown, onPointerOver, onPointerOut } = props.callbacks;
+    if (onPointerDown)
+      div.onpointerdown = onPointerDown;
+    if (onPointerOver)
+      div.onpointerover = onPointerOver;
+    if (onPointerOut)
+      div.onpointerout = onPointerOut;
+  }
+  return { e: div, update: props.update, state: props.state, callbacks: props.callbacks };
 };
 // src/library/Ball.ts
-var Ball = (color) => LaxDiv({
-  state: {
-    position: { x: 0, y: 0 },
-    velocity: { x: Math.random() * 2 - 4, y: Math.random() * 5 - 10 },
-    radius: 20,
-    gravity: 0.05
-  },
-  style: {
-    backgroundColor: color,
-    borderRadius: "50%",
-    border: "1px solid white"
-  },
-  update: (div, state) => {
-    div.style.width = `${state.radius * 2}px`;
-    div.style.height = `${state.radius * 2}px`;
-    div.style.top = `${state.position.y}px`;
-    div.style.left = `${state.position.x}px`;
-    state.velocity.y += state.gravity;
-    state.position.x += state.velocity.x;
-    state.position.y += state.velocity.y;
-    if (state.position.x < 0) {
-      state.position.x = 0;
-      state.velocity.x *= -1;
+var Ball = (color) => {
+  const ball = LaxDiv({
+    state: {
+      position: { x: 0, y: 0 },
+      velocity: { x: Math.random() - 2, y: 0 },
+      radius: 20,
+      gravity: 0.04,
+      frozen: false
+    },
+    style: {
+      backgroundColor: color,
+      borderRadius: "50%",
+      border: "1px solid white",
+      pointerEvents: "auto"
+    },
+    callbacks: {
+      onPointerOver: () => {
+        ball.state.frozen = true;
+      },
+      onPointerOut: () => {
+        ball.state.frozen = false;
+      }
+    },
+    update: (div, state) => {
+      if (state.frozen)
+        return;
+      div.style.width = `${state.radius * 2}px`;
+      div.style.height = `${state.radius * 2}px`;
+      div.style.top = `${state.position.y}px`;
+      div.style.left = `${state.position.x}px`;
+      state.velocity.y += state.gravity;
+      state.position.x += state.velocity.x;
+      state.position.y += state.velocity.y;
+      if (state.position.x < 0) {
+        state.position.x = 0;
+        state.velocity.x *= -1;
+      }
+      if (state.position.x + state.radius * 2 > window.innerWidth) {
+        state.position.x = window.innerWidth - state.radius * 2;
+        state.velocity.x *= -1;
+      }
+      if (state.position.y < 0) {
+        state.position.y = 0;
+        state.velocity.y *= -1;
+      }
+      if (state.position.y + state.radius * 2 > window.innerHeight) {
+        state.position.y = window.innerHeight - state.radius * 2;
+        state.velocity.y *= -1;
+      }
     }
-    if (state.position.x + state.radius * 2 > window.innerWidth) {
-      state.position.x = window.innerWidth - state.radius * 2;
-      state.velocity.x *= -1;
-    }
-    if (state.position.y < 0) {
-      state.position.y = 0;
-      state.velocity.y *= -1;
-    }
-    if (state.position.y + state.radius * 2 > window.innerHeight) {
-      state.position.y = window.innerHeight - state.radius * 2;
-      state.velocity.y *= -1;
-    }
-  }
-});
+  });
+  return ball;
+};
 // docs/ball.ts
 var lax = Lax({});
 lax.append(Ball("#00ffaa"));
