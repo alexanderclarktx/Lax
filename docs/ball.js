@@ -60,9 +60,9 @@ var Ball = (color) => {
   const ball = LaxDiv({
     state: {
       position: { x: 0, y: 0 },
-      velocity: { x: Math.random() - 2, y: Math.random() * 5 - 10 },
+      velocity: { x: Math.random() - 2, y: 0 },
       radius: 20,
-      gravity: 0.05,
+      gravity: 0.04,
       frozen: false
     },
     style: {
@@ -72,9 +72,11 @@ var Ball = (color) => {
       pointerEvents: "auto"
     },
     callbacks: {
-      onPointerDown: () => {
-        ball.state.frozen = !ball.state.frozen;
-        console.log(ball.state.frozen);
+      onPointerOver: () => {
+        ball.state.frozen = true;
+      },
+      onPointerOut: () => {
+        ball.state.frozen = false;
       }
     },
     update: (div, state) => {
@@ -97,11 +99,11 @@ var Ball = (color) => {
       }
       if (state.position.y < 0) {
         state.position.y = 0;
-        state.velocity.y *= -0.9;
+        state.velocity.y *= -1;
       }
       if (state.position.y + state.radius * 2 > window.innerHeight) {
         state.position.y = window.innerHeight - state.radius * 2;
-        state.velocity.y *= -0.9;
+        state.velocity.y *= -1;
       }
     }
   });
