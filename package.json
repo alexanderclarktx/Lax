@@ -5,8 +5,8 @@
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",
-    "dev-compile": "bun build examples/*.ts --outdir examples --watch",
-    "dev-serve": "bun run --hot examples/*.html"
+    "dev-compile": "bun build docs/*.ts --outdir docs --watch",
+    "dev-serve": "bun run --hot docs/*.html"
   },
   "dependencies": {
     "typescript": "5.8.3"
