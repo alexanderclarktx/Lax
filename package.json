@@ -2,6 +2,11 @@
   "name": "lax",
   "module": "main.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun dev-compile & bun dev-serve",
+    "dev-compile": "bun build examples/*.ts --outdir examples --watch",
+    "dev-serve": "bun run --hot examples/*.html"
+  },
   "dependencies": {
     "typescript": "5.8.3"
   },
