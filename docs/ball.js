@@ -1,30 +1,28 @@
 // src/Lax.ts
 var Lax = (state) => {
   let ready = false;
-  let children = [];
   const lax = {
     state,
+    elements: [],
     append: (element) => {
       document.body.appendChild(element.e);
-      children.push(element);
+      lax.elements.push(element);
       return true;
     }
   };
-  const loop = () => {
-    requestAnimationFrame(loop);
-    if (!ready) {
-      if (document.body) {
-        document.body.style.backgroundColor = "black";
-        document.body.style.overflowX = "hidden";
-        document.body.style.overflowY = "hidden";
-        ready = true;
-      }
+  const update = () => {
+    requestAnimationFrame(update);
+    if (!ready && document.body) {
+      document.body.style.backgroundColor = "black";
+      document.body.style.overflowX = "hidden";
+      document.body.style.overflowY = "hidden";
+      ready = true;
     }
-    for (const element of children) {
+    for (const element of lax.elements) {
       element.update?.(element.e, element.state);
     }
   };
-  requestAnimationFrame(loop);
+  requestAnimationFrame(update);
   return lax;
 };
 // src/elements/LaxDiv.ts

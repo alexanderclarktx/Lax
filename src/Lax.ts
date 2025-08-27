@@ -2,6 +2,7 @@ import { LaxElement } from "@lax"
 
 export type Lax<State extends {} = {}> = {
   state: State
+  elements: LaxElement[]
   append: (...element: LaxElement[]) => boolean
 }
 
@@ -9,38 +10,32 @@ export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
 
   let ready = false
 
-  // document.body.style.backgroundColor = "black"
-  // document.body.style.overflowX = "hidden"
-  // document.body.style.overflowY = "hidden"
-
-  let children: LaxElement[] = []
-
   const lax: Lax<State> = {
     state,
+    elements: [],
     append: (element: LaxElement) => {
       document.body.appendChild(element.e)
-      children.push(element)
+      lax.elements.push(element)
       return true
     }
   }
 
-  const loop = () => {
-    requestAnimationFrame(loop)
+  const update = () => {
+    requestAnimationFrame(update)
 
-    if (!ready) {
-      if (document.body) {
-        document.body.style.backgroundColor = "black"
-        document.body.style.overflowX = "hidden"
-        document.body.style.overflowY = "hidden"
-        ready = true
-      }
+    if (!ready && document.body) {
+      document.body.style.backgroundColor = "black"
+      document.body.style.overflowX = "hidden"
+      document.body.style.overflowY = "hidden"
+      ready = true
     }
 
-    for (const element of children) {
+    for (const element of lax.elements) {
       element.update?.(element.e, element.state)
     }
   }
-  requestAnimationFrame(loop)
+
+  requestAnimationFrame(update)
 
   return lax
 }
