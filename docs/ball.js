@@ -1,8 +1,6 @@
 // src/Lax.ts
 var Lax = (state) => {
-  document.body.style.backgroundColor = "black";
-  document.body.style.overflowX = "hidden";
-  document.body.style.overflowY = "hidden";
+  let ready = false;
   let children = [];
   const lax = {
     state,
@@ -14,6 +12,14 @@ var Lax = (state) => {
   };
   const loop = () => {
     requestAnimationFrame(loop);
+    if (!ready) {
+      if (document.body) {
+        document.body.style.backgroundColor = "black";
+        document.body.style.overflowX = "hidden";
+        document.body.style.overflowY = "hidden";
+        ready = true;
+      }
+    }
     for (const element of children) {
       element.update?.(element.e, element.state);
     }
