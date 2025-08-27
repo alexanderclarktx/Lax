@@ -1,50 +1,67 @@
-import { Lax, LaxDiv, XY } from "@lax"
+import { Lax, LaxColor, LaxDiv, XY } from "@lax"
 
-type State = {
+const lax = Lax({})
+
+type BallState = {
   position: XY,
   velocity: { x: number, y: number },
   radius: number
   gravity: number
 }
 
-const lax = Lax<State>({
-  position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-  velocity: { x: Math.random() * 5 - 10, y: Math.random() * 5 },
-  radius: 10,
-  gravity: 0.1
+const Ball = (color: LaxColor) => LaxDiv<BallState>({
+  state: {
+    position: { x: 0, y: 0 },
+    velocity: { x: Math.random() * 2 - 4, y: Math.random() * 5 - 10 },
+    radius: 20,
+    gravity: 0.05
+  },
+  style: {
+    backgroundColor: color,
+    borderRadius: "50%",
+    border: "1px solid white"
+  },
+  update: (div, state) => {
+    // shape
+    div.style.width = `${state.radius * 2}px`
+    div.style.height = `${state.radius * 2}px`
+
+    // position
+    div.style.top = `${state.position.y}px`
+    div.style.left = `${state.position.x}px`
+
+    // gravity
+    state.velocity.y += state.gravity
+
+    // velocity
+    state.position.x += state.velocity.x
+    state.position.y += state.velocity.y
+
+    // bounces
+
+    if (state.position.x < 0) {
+      state.position.x = 0
+      state.velocity.x *= -1
+    }
+
+    if (state.position.x + state.radius * 2 > window.innerWidth) {
+      state.position.x = window.innerWidth - state.radius * 2
+      state.velocity.x *= -1
+    }
+
+    if (state.position.y < 0) {
+      state.position.y = 0
+      state.velocity.y *= -1
+    }
+
+    if (state.position.y + state.radius * 2 > window.innerHeight) {
+      state.position.y = window.innerHeight - state.radius * 2
+      state.velocity.y *= -1
+    }
+  }
 })
 
-const ball = LaxDiv({
-  backgroundColor: "green",
-  width: `${lax.state.radius * 2}px`,
-  height: `${lax.state.radius * 2}px`,
-  borderRadius: "50%",
-  border: "1px solid white"
-},
-  (div) => {
-    lax.state.velocity.y += lax.state.gravity
-
-    lax.state.position.y += lax.state.velocity.y
-    lax.state.position.x += lax.state.velocity.x
-
-    if (lax.state.position.y + lax.state.radius > window.innerHeight) {
-      lax.state.position.y = window.innerHeight - lax.state.radius
-      lax.state.velocity.y *= -1
-    }
-
-    if (lax.state.position.x + lax.state.radius > window.innerWidth) {
-      lax.state.position.x = window.innerWidth - lax.state.radius
-      lax.state.velocity.x *= -1
-    }
-
-    if (lax.state.position.x < 0) {
-      lax.state.position.x = 0
-      lax.state.velocity.x *= -1
-    }
-
-    div.style.top = `${lax.state.position.y}px`
-    div.style.left = `${lax.state.position.x}px`
-  }
-)
-
-lax.append(ball)
+lax.append(Ball("#00ffaa"))
+lax.append(Ball("#ffaa00"))
+lax.append(Ball("#aa00ff"))
+lax.append(Ball("#ff00aa"))

@@ -20,6 +20,7 @@
     "strictNullChecks": true,
     "stripInternal": true,
     "target": "ESNext",
+    "checkJs": false,
     "paths": {
       "@lax": [
         "main"

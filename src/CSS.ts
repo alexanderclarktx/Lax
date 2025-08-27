@@ -1,6 +1,6 @@
 export type CSS = Partial<{
   alignItems: "center" | "flex-start" | "flex-end" | "stretch"
-  backgroundColor: Colors | `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
+  backgroundColor: LaxColor
   border: string
   borderBottom: string
   borderImage: `linear-gradient(${string}) ${number}`
@@ -58,4 +58,5 @@ export type CSS = Partial<{
   zIndex: number
 }>
 
-type Colors = "red" | "green" | "blue" | "yellow" | "purple" | "orange"
+type PrimaryColor = "red" | "green" | "blue" | "yellow" | "purple" | "orange"
+export type LaxColor = PrimaryColor | `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
