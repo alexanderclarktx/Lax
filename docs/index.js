@@ -5,15 +5,26 @@ var Lax = (state) => {
     state,
     elements: [],
     keysDown: KeyBuffer(),
-    append: (element) => {
-      document.body.appendChild(element.e);
+    append: (element, isChild = false) => {
       lax.elements.push(element);
+      element.lax = lax;
+      if (!isChild)
+        document.body.appendChild(element.e);
       if (element.children) {
         for (const child of element.children) {
           element.e.appendChild(child.e);
-          lax.elements.push(child);
+          lax.append(child, true);
         }
       }
+      return true;
+    },
+    remove: (element) => {
+      const index = lax.elements.indexOf(element);
+      if (index === -1)
+        return false;
+      lax.elements.splice(index, 1);
+      if (element.e.parentElement)
+        element.e.parentElement.removeChild(element.e);
       return true;
     }
   };
@@ -27,8 +38,26 @@ var Lax = (state) => {
     }
     for (const element of lax.elements) {
       element.update?.(element.e, lax);
+      if (element.children) {
+        for (const child of element.children) {
+          child.update?.(child.e, lax);
+        }
+      }
+      lax.keysDown.updateHold();
     }
   };
+  document.addEventListener("keydown", (event) => {
+    if (document.hasFocus()) {
+      let key = event.key.toLowerCase();
+      if (!lax.keysDown.get(key)) {
+        lax.keysDown.push({ key, hold: 0 });
+      }
+    }
+  });
+  document.addEventListener("keyup", (event) => {
+    const key = event.key.toLowerCase();
+    lax.keysDown.remove(key);
+  });
   requestAnimationFrame(update);
   return lax;
 };
@@ -86,7 +115,12 @@ var LaxDiv = (props) => {
     if (onPointerOut)
       div.onpointerout = onPointerOut;
   }
-  return { e: div, update: props.update, state: props.state, callbacks: props.callbacks };
+  return {
+    lax: undefined,
+    e: div,
+    update: props.update,
+    callbacks: props.callbacks
+  };
 };
 // src/library/Ball.ts
 var Ball = (color) => {
@@ -105,11 +139,14 @@ var Ball = (color) => {
       pointerEvents: "auto"
     },
     callbacks: {
+      onPointerDown: () => {
+        ball.lax?.remove(ball);
+      },
       onPointerOver: () => {
-        ball.state.frozen = true;
+        state.frozen = true;
       },
       onPointerOut: () => {
-        ball.state.frozen = false;
+        state.frozen = false;
       }
     },
     update: (div) => {

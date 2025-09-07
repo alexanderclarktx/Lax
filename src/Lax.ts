@@ -4,7 +4,8 @@ export type Lax<State extends {} = {}> = {
   state: State
   elements: LaxElement[]
   keysDown: KeyBuffer
-  append: (...element: LaxElement[]) => boolean
+  append: (element: LaxElement, isChild: boolean) => boolean
+  remove: (element: LaxElement) => boolean
 }
 
 export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
@@ -15,18 +16,27 @@ export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
     state,
     elements: [],
     keysDown: KeyBuffer(),
-    append: (element: LaxElement) => {
-      document.body.appendChild(element.e)
+    append: (element: LaxElement, isChild = false) => {
       lax.elements.push(element)
+      element.lax = lax
+
+      if (!isChild) document.body.appendChild(element.e)
 
       if (element.children) {
         for (const child of element.children) {
           element.e.appendChild(child.e)
-
-          lax.elements.push(child)
-          // lax.append(child)
+          lax.append(child, true)
         }
       }
+
+      return true
+    },
+    remove: (element: LaxElement) => {
+      const index = lax.elements.indexOf(element)
+      if (index === -1) return false
+
+      lax.elements.splice(index, 1)
+      if (element.e.parentElement) element.e.parentElement.removeChild(element.e)
 
       return true
     }
@@ -44,8 +54,36 @@ export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
 
     for (const element of lax.elements) {
       element.update?.(element.e, lax)
+
+      if (element.children) {
+        for (const child of element.children) {
+          child.update?.(child.e, lax)
+        }
+      }
+
+      lax.keysDown.updateHold()
     }
   }
+
+  document.addEventListener("keydown", (event) => {
+    if (document.hasFocus()) {
+      let key = event.key.toLowerCase()
+
+      // prevent defaults
+      // if (charactersPreventDefault.has(key)) event.preventDefault()
+
+      // add to buffer
+      if (!lax.keysDown.get(key)) {
+        lax.keysDown.push({ key, hold: 0 })
+      }
+    }
+  })
+
+  document.addEventListener("keyup", (event) => {
+    const key = event.key.toLowerCase()
+
+    lax.keysDown.remove(key)
+  })
 
   requestAnimationFrame(update)
 

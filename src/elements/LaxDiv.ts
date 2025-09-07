@@ -8,7 +8,7 @@ const defaults: CSS = {
   touchAction: "none"
 }
 
-export type LaxDiv<S extends {}> = LaxElement<HTMLDivElement, S>
+export type LaxDiv<S extends {}> = LaxElement<HTMLDivElement>
 
 export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<S> => {
   const div = document.createElement("div")
@@ -32,5 +32,10 @@ export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<
     if (onPointerOut) div.onpointerout = onPointerOut
   }
 
-  return { e: div, update: props.update, state: props.state, callbacks: props.callbacks }
+  return {
+    lax: undefined,
+    e: div,
+    update: props.update,
+    callbacks: props.callbacks
+  }
 }

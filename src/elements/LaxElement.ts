@@ -1,6 +1,7 @@
 import { CSS, Lax } from "@lax"
 
 export type LaxElement<E extends HTMLElement = HTMLElement> = {
+  lax: Lax | undefined
   e: E
   update: undefined | LaxUpdate<E>
   callbacks: undefined | {

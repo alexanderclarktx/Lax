@@ -10,7 +10,7 @@ type BallState = {
 
 export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
-  const state: BallState = {
+  const state = {
     position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
     velocity: { x: Math.random() * 2 - 4, y: 0 },
     radius: 8,
@@ -26,11 +26,14 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
       pointerEvents: "auto"
     },
     callbacks: {
+      onPointerDown: () => {
+        ball.lax?.remove(ball)
+      },
       onPointerOver: () => {
-        ball.state.frozen = true
+        state.frozen = true
       },
       onPointerOut: () => {
-        ball.state.frozen = false
+        state.frozen = false
       }
     },
     update: (div) => {
