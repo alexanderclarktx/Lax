@@ -5,7 +5,7 @@
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",
-    "dev-compile": "bun build docs/*.ts --outdir docs --watch",
+    "dev-compile": "bun build docs/*.ts --outdir docs --minify --watch",
     "dev-serve": "bun run --hot docs/*.html"
   },
   "dependencies": {
