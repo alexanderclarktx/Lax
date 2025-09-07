@@ -10,6 +10,7 @@ type BallState = {
 
 export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
+  // TODO component
   const state = {
     position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
     velocity: { x: Math.random() * 2 - 4, y: 0 },
@@ -36,8 +37,10 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
         state.frozen = false
       }
     },
-    update: (div) => {
+    update: () => {
       if (state.frozen) return
+
+      const div = ball.e
 
       // shape
       div.style.width = `${state.radius}dvh`

@@ -3,7 +3,7 @@ import { CSS, Lax } from "@lax"
 export type LaxElement<E extends HTMLElement = HTMLElement> = {
   lax: Lax | undefined
   e: E
-  update: undefined | LaxUpdate<E>
+  update: undefined | (() => void)
   callbacks: undefined | {
     onPointerDown?: () => void
     onPointerOver?: () => void
@@ -12,9 +12,9 @@ export type LaxElement<E extends HTMLElement = HTMLElement> = {
   children: LaxElement[]
 }
 
-export type LaxElementProps<LE extends LaxElement> = {
+export type LaxElementProps = {
   style?: Partial<CSS>
-  update?: LaxUpdate<LE["e"]>
+  update?: () => void
   callbacks?: {
     onPointerDown?: () => void
     onPointerOver?: () => void
@@ -22,5 +22,3 @@ export type LaxElementProps<LE extends LaxElement> = {
   },
   children?: LaxElement[]
 }
-
-export type LaxUpdate<E extends HTMLElement> = (e: E, lax: Lax) => void
