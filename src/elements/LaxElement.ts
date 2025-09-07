@@ -9,7 +9,7 @@ export type LaxElement<E extends HTMLElement = HTMLElement> = {
     onPointerOver?: () => void
     onPointerOut?: () => void
   },
-  children?: LaxElement[]
+  children: LaxElement[]
 }
 
 export type LaxElementProps<LE extends LaxElement> = {

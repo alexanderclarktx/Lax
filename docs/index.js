@@ -119,7 +119,8 @@ var LaxDiv = (props) => {
     lax: undefined,
     e: div,
     update: props.update,
-    callbacks: props.callbacks
+    callbacks: props.callbacks,
+    children: props.children || []
   };
 };
 // src/library/Ball.ts

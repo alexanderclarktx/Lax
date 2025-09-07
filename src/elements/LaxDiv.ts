@@ -36,6 +36,7 @@ export const LaxDiv = <S extends {}>(props: LaxElementProps<LaxDiv<S>>): LaxDiv<
     lax: undefined,
     e: div,
     update: props.update,
-    callbacks: props.callbacks
+    callbacks: props.callbacks,
+    children: props.children || []
   }
 }
