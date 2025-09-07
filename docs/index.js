@@ -4,9 +4,16 @@ var Lax = (state) => {
   const lax = {
     state,
     elements: [],
+    keysDown: KeyBuffer(),
     append: (element) => {
       document.body.appendChild(element.e);
       lax.elements.push(element);
+      if (element.children) {
+        for (const child of element.children) {
+          element.e.appendChild(child.e);
+          lax.elements.push(child);
+        }
+      }
       return true;
     }
   };
@@ -19,11 +26,37 @@ var Lax = (state) => {
       ready = true;
     }
     for (const element of lax.elements) {
-      element.update?.(element.e, element.state);
+      element.update?.(element.e, lax);
     }
   };
   requestAnimationFrame(update);
   return lax;
+};
+// src/KeyBuffer.ts
+var KeyBuffer = (b) => {
+  let buffer = b ? [...b] : [];
+  return {
+    all: () => [...buffer],
+    get: (key) => {
+      return buffer.find((b2) => b2.key === key);
+    },
+    copy: () => KeyBuffer(buffer),
+    clear: () => {
+      buffer = [];
+    },
+    push: (km) => {
+      if (!buffer.find((b2) => b2.key === km.key))
+        return buffer.push(km);
+    },
+    remove: (key) => {
+      buffer = buffer.filter((b2) => b2.key !== key);
+    },
+    updateHold: () => {
+      for (const b2 of buffer) {
+        b2.hold += 1;
+      }
+    }
+  };
 };
 // src/elements/LaxDiv.ts
 var defaults = {
@@ -57,14 +90,14 @@ var LaxDiv = (props) => {
 };
 // src/library/Ball.ts
 var Ball = (color) => {
+  const state = {
+    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
+    velocity: { x: Math.random() * 2 - 4, y: 0 },
+    radius: 8,
+    gravity: 0.04,
+    frozen: false
+  };
   const ball = LaxDiv({
-    state: {
-      position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
-      velocity: { x: Math.random() * 2 - 4, y: 0 },
-      radius: 8,
-      gravity: 0.04,
-      frozen: false
-    },
     style: {
       backgroundColor: color,
       borderRadius: "50%",
@@ -79,7 +112,7 @@ var Ball = (color) => {
         ball.state.frozen = false;
       }
     },
-    update: (div, state) => {
+    update: (div) => {
       if (state.frozen)
         return;
       div.style.width = `${state.radius}dvh`;

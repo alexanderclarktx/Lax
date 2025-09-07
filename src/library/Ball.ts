@@ -10,14 +10,15 @@ type BallState = {
 
 export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
+  const state: BallState = {
+    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
+    velocity: { x: Math.random() * 2 - 4, y: 0 },
+    radius: 8,
+    gravity: 0.04,
+    frozen: false
+  }
+
   const ball = LaxDiv<BallState>({
-    state: {
-      position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
-      velocity: { x: Math.random() * 2 - 4, y: 0 },
-      radius: 8,
-      gravity: 0.04,
-      frozen: false
-    },
     style: {
       backgroundColor: color,
       borderRadius: "50%",
@@ -32,7 +33,7 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
         ball.state.frozen = false
       }
     },
-    update: (div, state) => {
+    update: (div) => {
       if (state.frozen) return
 
       // shape
@@ -52,7 +53,7 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
       // bounces
 
-      const {width, height} = div.getBoundingClientRect()
+      const { width, height } = div.getBoundingClientRect()
 
       if (state.position.x < 0) {
         state.position.x = 0
