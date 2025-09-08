@@ -1,23 +1,17 @@
-import { LaxColor, LaxDiv, XY } from "@lax"
+import { LaxColor, LaxDiv } from "@lax"
 
-type BallState = {
-  position: XY
-  velocity: XY
-  radius: number
-  gravity: number
-  frozen: boolean
-}
+export const Ball = (color: LaxColor): LaxDiv => {
 
-export const Ball = (color: LaxColor): LaxDiv<BallState> => {
+  // TODO should be a component
+  const state = {
+    position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
+    velocity: { x: Math.random() * 2 - 4, y: 0 },
+    radius: 8,
+    gravity: 0.04,
+    frozen: false
+  }
 
-  const ball = LaxDiv<BallState>({
-    state: {
-      position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
-      velocity: { x: Math.random() * 2 - 4, y: 0 },
-      radius: 8,
-      gravity: 0.04,
-      frozen: false
-    },
+  const ball = LaxDiv({
     style: {
       backgroundColor: color,
       borderRadius: "50%",
@@ -25,15 +19,20 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
       pointerEvents: "auto"
     },
     callbacks: {
+      onPointerDown: () => {
+        ball.lax?.remove(ball)
+      },
       onPointerOver: () => {
-        ball.state.frozen = true
+        state.frozen = true
       },
       onPointerOut: () => {
-        ball.state.frozen = false
+        state.frozen = false
       }
     },
-    update: (div, state) => {
+    update: () => {
       if (state.frozen) return
+
+      const div = ball.e
 
       // shape
       div.style.width = `${state.radius}dvh`
@@ -52,7 +51,7 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
 
       // bounces
 
-      const {width, height} = div.getBoundingClientRect()
+      const { width, height } = div.getBoundingClientRect()
 
       if (state.position.x < 0) {
         state.position.x = 0

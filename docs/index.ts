@@ -1,8 +1,8 @@
 import { Lax, Ball } from "@lax"
 
-const lax = Lax({})
-
-lax.append(Ball("#00ffaa"))
-lax.append(Ball("#ffaa00"))
-lax.append(Ball("#aa00ff"))
-lax.append(Ball("#ff00aa"))
+const app = Lax({
+  state: {},
+  elements: [
+    Ball("#00ffaa"), Ball("#ffaa00"), Ball("#aa00ff"), Ball("#ff00aa")
+  ]
+})
