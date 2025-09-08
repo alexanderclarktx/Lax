@@ -22,14 +22,14 @@
     "target": "ESNext",
     "checkJs": false,
     "paths": {
-      "@lex": [
+      "@piggo/lex": [
         "main"
       ]
     },
   },
-  // make @lex resolve to src/
   "include": [
     "src/**/*",
-    "docs/**/*"
+    "docs/**/*",
+    "main.ts"
   ]
 }

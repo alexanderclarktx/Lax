@@ -1,8 +1,9 @@
 {
-  "name": "@lex",
+  "name": "@piggo/lex",
   "module": "main.ts",
   "type": "module",
   "version": "1.0.0",
+  "private": false,
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",
