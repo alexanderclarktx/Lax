@@ -1,7 +1,8 @@
 {
-  "name": "lex",
+  "name": "@lex",
   "module": "main.ts",
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",
