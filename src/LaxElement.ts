@@ -25,7 +25,7 @@ export type LaxElement<E extends HTMLElement = HTMLElement> = {
   children: LaxElement[]
 }
 
-export const LaxElement = <E extends HTMLElement = HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LaxElementProps): LaxElement<E> => {
+export const LaxElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LaxElementProps): LaxElement<E> => {
   const element = document.createElement(tag) as E
 
   Object.assign(element.style, defaults)
@@ -55,3 +55,36 @@ export const LaxElement = <E extends HTMLElement = HTMLElement>(tag: keyof HTMLE
     children: props.children || []
   }
 }
+
+export type LaxDiv = LaxElement<HTMLDivElement>
+export type LaxCanvas = LaxElement<HTMLCanvasElement>
+export type LaxImage = LaxElement<HTMLImageElement>
+export type LaxAnchor = LaxElement<HTMLAnchorElement>
+
+export const LaxDiv = LaxElement<HTMLDivElement>("div", {
+  position: "absolute",
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
+  outline: "none",
+  touchAction: "none"
+})
+
+export const LaxCanvas = LaxElement<HTMLCanvasElement>("canvas", {
+  position: "absolute",
+  outline: "none",
+  touchAction: "none"
+})
+
+export const LaxImage = LaxElement<HTMLImageElement>("img", {
+  position: "absolute",
+  outline: "none",
+  touchAction: "none",
+  userSelect: "none",
+  pointerEvents: "none"
+})
+
+export const LaxAnchor = LaxElement<HTMLAnchorElement>("a", {
+  position: "absolute",
+  outline: "none",
+  touchAction: "none"
+})
