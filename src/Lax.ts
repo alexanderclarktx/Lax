@@ -4,20 +4,24 @@ export type Lax<State extends {} = {}> = {
   state: State
   elements: LaxElement[]
   keysDown: KeyBuffer
-  append: (element: LaxElement, isChild: boolean) => boolean
+  append: (element: LaxElement, isChild?: boolean) => boolean
   remove: (element: LaxElement) => boolean
 }
 
-export type LaxOptions = {
-  backgroundColor?: string
+export type LaxProps<State extends {}> = {
+  state: State
+  elements?: LaxElement[]
+  options?: {
+    backgroundColor?: string
+  }
 }
 
-export const Lax = <State extends {} = {}>(state: State, options: LaxOptions): Lax<State> => {
+export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> => {
 
   let ready = false
 
   const lax: Lax<State> = {
-    state,
+    state: props.state,
     elements: [],
     keysDown: KeyBuffer(),
     append: (element: LaxElement, isChild = false) => {
@@ -50,9 +54,16 @@ export const Lax = <State extends {} = {}>(state: State, options: LaxOptions): L
     requestAnimationFrame(update)
 
     if (!ready && document.body) {
-      document.body.style.backgroundColor = options.backgroundColor ?? "black"
+      document.body.style.backgroundColor = props.options?.backgroundColor ?? "black"
       document.body.style.overflowX = "hidden"
       document.body.style.overflowY = "hidden"
+
+      if (props.elements) {
+        for (const element of props.elements) {
+          lax.append(element)
+        }
+      }
+
       ready = true
     }
 

@@ -1,6 +1,5 @@
 export * from "./src/Lax"
 export * from "./src/CSS"
 export * from "./src/KeyBuffer"
-export * from "./src/Types"
 export * from "./src/LaxElement"
 export * from "./src/elements/Ball"
