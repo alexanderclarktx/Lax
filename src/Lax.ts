@@ -76,7 +76,7 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
         }
       }
 
-      lax.keysDown.updateHold()
+      lax.keysDown.update()
     }
   }
 
