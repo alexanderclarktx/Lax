@@ -1,4 +1,4 @@
-import { CSS, Lex } from "@piggo/lex"
+import { CSS, Lex } from "@piggo-gg/lex"
 
 type Update = () => void
 

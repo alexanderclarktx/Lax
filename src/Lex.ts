@@ -1,4 +1,4 @@
-import { KeyBuffer, LexColor, LexElement } from "@piggo/lex"
+import { KeyBuffer, LexColor, LexElement } from "@piggo-gg/lex"
 
 export type Lex<State extends {} = {}> = {
   state: State

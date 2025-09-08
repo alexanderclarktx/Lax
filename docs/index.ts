@@ -1,4 +1,4 @@
-import { Lex, Ball } from "@piggo/lex"
+import { Lex, Ball } from "@piggo-gg/lex"
 
 const app = Lex({
   state: {},

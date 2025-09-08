@@ -1,9 +1,15 @@
 {
-  "name": "@piggo/lex",
+  "name": "@piggo-gg/lex",
   "module": "main.ts",
   "type": "module",
   "version": "1.0.0",
   "private": false,
+  "main": "dist/main.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",

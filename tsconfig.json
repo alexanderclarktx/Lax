@@ -22,7 +22,7 @@
     "target": "ESNext",
     "checkJs": false,
     "paths": {
-      "@piggo/lex": [
+      "@piggo-gg/lex": [
         "main"
       ]
     },

@@ -1,4 +1,4 @@
-import { LexColor, LexDiv } from "@piggo/lex"
+import { LexColor, LexDiv } from "@piggo-gg/lex"
 
 export const Ball = (color: LexColor): LexDiv => {
 
