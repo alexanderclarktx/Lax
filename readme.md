@@ -1,4 +1,23 @@
 <div align="center" style="font:">
 
-  __Lax__ is a small web runtime with functional html elements and simple state management.
+  __Lax__ is a small web runtime. Write your entire webapp with TypeScript.
 </div>
+
+### Lax syntax
+
+```ts
+const app = Lax({
+  state: {},
+  elements: [
+    Ball("#00ffaa"), Ball("#ffaa00"), Ball("#aa00ff"), Ball("#ff00aa")
+  ]
+})
+```
+
+### running the repo
+
+```bash
+bun install
+
+bun dev
+```
