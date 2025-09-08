@@ -1,4 +1,4 @@
-import { KeyBuffer, LaxElement } from "@lax"
+import { KeyBuffer, LaxColor, LaxElement } from "@lax"
 
 export type Lax<State extends {} = {}> = {
   state: State
@@ -11,9 +11,7 @@ export type Lax<State extends {} = {}> = {
 export type LaxProps<State extends {}> = {
   state: State
   elements?: LaxElement[]
-  options?: {
-    backgroundColor?: string
-  }
+  backgroundColor?: LaxColor
 }
 
 export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> => {
@@ -54,7 +52,7 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
     requestAnimationFrame(update)
 
     if (!ready && document.body) {
-      document.body.style.backgroundColor = props.options?.backgroundColor ?? "black"
+      document.body.style.backgroundColor = props.backgroundColor ?? "black"
       document.body.style.overflowX = "hidden"
       document.body.style.overflowY = "hidden"
 
