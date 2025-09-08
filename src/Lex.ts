@@ -1,47 +1,47 @@
-import { KeyBuffer, LaxColor, LaxElement } from "@lax"
+import { KeyBuffer, LexColor, LexElement } from "@lex"
 
-export type Lax<State extends {} = {}> = {
+export type Lex<State extends {} = {}> = {
   state: State
-  elements: LaxElement[]
+  elements: LexElement[]
   keysDown: KeyBuffer
-  append: (element: LaxElement, isChild?: boolean) => boolean
-  remove: (element: LaxElement) => boolean
+  append: (element: LexElement, isChild?: boolean) => boolean
+  remove: (element: LexElement) => boolean
 }
 
-export type LaxProps<State extends {}> = {
+export type LexProps<State extends {}> = {
   state: State
-  elements?: LaxElement[]
-  backgroundColor?: LaxColor
+  elements?: LexElement[]
+  backgroundColor?: LexColor
 }
 
-export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> => {
+export const Lex = <State extends {} = {}>(props: LexProps<State>): Lex<State> => {
 
   let ready = false
 
-  const lax: Lax<State> = {
+  const lex: Lex<State> = {
     state: props.state,
     elements: [],
     keysDown: KeyBuffer(),
-    append: (element: LaxElement, isChild = false) => {
-      lax.elements.push(element)
-      element.lax = lax
+    append: (element: LexElement, isChild = false) => {
+      lex.elements.push(element)
+      element.lex = lex
 
       if (!isChild) document.body.appendChild(element.e)
 
       if (element.children) {
         for (const child of element.children) {
           element.e.appendChild(child.e)
-          lax.append(child, true)
+          lex.append(child, true)
         }
       }
 
       return true
     },
-    remove: (element: LaxElement) => {
-      const index = lax.elements.indexOf(element)
+    remove: (element: LexElement) => {
+      const index = lex.elements.indexOf(element)
       if (index === -1) return false
 
-      lax.elements.splice(index, 1)
+      lex.elements.splice(index, 1)
       if (element.e.parentElement) element.e.parentElement.removeChild(element.e)
 
       return true
@@ -58,14 +58,14 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
 
       if (props.elements) {
         for (const element of props.elements) {
-          lax.append(element)
+          lex.append(element)
         }
       }
 
       ready = true
     }
 
-    for (const element of lax.elements) {
+    for (const element of lex.elements) {
       element.update?.()
 
       if (element.children) {
@@ -74,7 +74,7 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
         }
       }
 
-      lax.keysDown.update()
+      lex.keysDown.update()
     }
   }
 
@@ -86,8 +86,8 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
       // if (charactersPreventDefault.has(key)) event.preventDefault()
 
       // add to buffer
-      if (!lax.keysDown.get(key)) {
-        lax.keysDown.push({ key, hold: 0 })
+      if (!lex.keysDown.get(key)) {
+        lex.keysDown.push({ key, hold: 0 })
       }
     }
   })
@@ -95,10 +95,10 @@ export const Lax = <State extends {} = {}>(props: LaxProps<State>): Lax<State> =
   document.addEventListener("keyup", (event) => {
     const key = event.key.toLowerCase()
 
-    lax.keysDown.remove(key)
+    lex.keysDown.remove(key)
   })
 
   requestAnimationFrame(update)
 
-  return lax
+  return lex
 }

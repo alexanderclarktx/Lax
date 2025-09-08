@@ -1,7 +1,7 @@
 export type CSS = Partial<{
   alignItems: "center" | "flex-start" | "flex-end" | "stretch"
   alignSelf: "flex-end" | "center"
-  backgroundColor: LaxColor
+  backgroundColor: LexColor
   border: string
   borderBottom: string
   borderImage: `linear-gradient(${string}) ${number}`
@@ -9,7 +9,7 @@ export type CSS = Partial<{
   bottom: `${number}%` | `${number}px`
   boxSizing: "border-box" | "content-box"
   clipPath: string
-  color: LaxColor
+  color: LexColor
   cursor: "pointer" | "default" | "not-allowed"
   display: "block" | "inline-block" | "flex" | "inline-flex" | "none"
   flex: number | `${number} ${number} auto`
@@ -61,4 +61,4 @@ export type CSS = Partial<{
 }>
 
 type PrimaryColor = "red" | "green" | "blue" | "yellow" | "purple" | "orange"
-export type LaxColor = PrimaryColor | `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
+export type LexColor = PrimaryColor | `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`

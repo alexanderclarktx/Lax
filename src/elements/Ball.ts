@@ -1,6 +1,6 @@
-import { LaxColor, LaxDiv } from "@lax"
+import { LexColor, LexDiv } from "@lex"
 
-export const Ball = (color: LaxColor): LaxDiv => {
+export const Ball = (color: LexColor): LexDiv => {
 
   // TODO should be a component
   const state = {
@@ -11,7 +11,7 @@ export const Ball = (color: LaxColor): LaxDiv => {
     frozen: false
   }
 
-  const ball = LaxDiv({
+  const ball = LexDiv({
     style: {
       backgroundColor: color,
       borderRadius: "50%",
@@ -20,7 +20,7 @@ export const Ball = (color: LaxColor): LaxDiv => {
     },
     callbacks: {
       onPointerDown: () => {
-        ball.lax?.remove(ball)
+        ball.lex?.remove(ball)
       },
       onPointerOver: () => {
         state.frozen = true

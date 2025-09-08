@@ -22,12 +22,12 @@
     "target": "ESNext",
     "checkJs": false,
     "paths": {
-      "@lax": [
+      "@lex": [
         "main"
       ]
     },
   },
-  // make @lax resolve to src/
+  // make @lex resolve to src/
   "include": [
     "src/**/*",
     "docs/**/*"
