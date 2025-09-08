@@ -52,7 +52,7 @@ export const LaxElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameM
     e: element,
     update: props.update,
     callbacks: props.callbacks,
-    children: props.children || []
+    children: props.children ?? []
   }
 }
 

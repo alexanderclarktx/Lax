@@ -8,7 +8,11 @@ export type Lax<State extends {} = {}> = {
   remove: (element: LaxElement) => boolean
 }
 
-export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
+export type LaxOptions = {
+  backgroundColor?: string
+}
+
+export const Lax = <State extends {} = {}>(state: State, options: LaxOptions): Lax<State> => {
 
   let ready = false
 
@@ -46,7 +50,7 @@ export const Lax = <State extends {} = {}>(state: State): Lax<State> => {
     requestAnimationFrame(update)
 
     if (!ready && document.body) {
-      document.body.style.backgroundColor = "black"
+      document.body.style.backgroundColor = options.backgroundColor ?? "black"
       document.body.style.overflowX = "hidden"
       document.body.style.overflowY = "hidden"
       ready = true
