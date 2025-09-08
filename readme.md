@@ -17,7 +17,9 @@ const app = Lax({
 ### running the repo
 
 ```bash
+# install dependencies
 bun install
 
+# run the webapp with hot code reloading
 bun dev
 ```
