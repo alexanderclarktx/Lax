@@ -1,16 +1,8 @@
-import { LaxColor, LaxDiv, XY } from "@lax"
+import { LaxColor, LaxDiv } from "@lax"
 
-type BallState = {
-  position: XY
-  velocity: XY
-  radius: number
-  gravity: number
-  frozen: boolean
-}
+export const Ball = (color: LaxColor): LaxDiv => {
 
-export const Ball = (color: LaxColor): LaxDiv<BallState> => {
-
-  // TODO component
+  // TODO should be a component
   const state = {
     position: { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight / 2 },
     velocity: { x: Math.random() * 2 - 4, y: 0 },

@@ -8,6 +8,6 @@ const defaults: CSS = {
   touchAction: "none"
 }
 
-export type LaxDiv<S extends {}> = LaxElement<HTMLDivElement>
+export type LaxDiv = LaxElement<HTMLDivElement>
 
 export const LaxDiv = LaxElement<HTMLDivElement>("div", defaults)
