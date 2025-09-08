@@ -1,9 +1,11 @@
 import { CSS, Lax } from "@lax"
 
+type Update = () => void
+
 export type LaxElement<E extends HTMLElement = HTMLElement> = {
   lax: Lax | undefined
   e: E
-  update: undefined | (() => void)
+  update: undefined | Update
   callbacks: undefined | {
     onPointerDown?: () => void
     onPointerOver?: () => void
@@ -14,7 +16,7 @@ export type LaxElement<E extends HTMLElement = HTMLElement> = {
 
 export type LaxElementProps = {
   style?: Partial<CSS>
-  update?: () => void
+  update?: Update
   callbacks?: {
     onPointerDown?: () => void
     onPointerOver?: () => void
