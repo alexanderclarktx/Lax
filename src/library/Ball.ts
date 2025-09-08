@@ -19,7 +19,7 @@ export const Ball = (color: LaxColor): LaxDiv<BallState> => {
     frozen: false
   }
 
-  const ball = LaxDiv<BallState>({
+  const ball = LaxDiv({
     style: {
       backgroundColor: color,
       borderRadius: "50%",
