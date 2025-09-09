@@ -1,5 +1,5 @@
-export * from "./src/Lax"
+export * from "./src/Lex"
 export * from "./src/CSS"
 export * from "./src/KeyBuffer"
-export * from "./src/LaxElement"
+export * from "./src/LexElement"
 export * from "./src/elements/Ball"

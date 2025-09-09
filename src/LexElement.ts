@@ -1,8 +1,8 @@
-import { CSS, Lax } from "@lax"
+import { CSS, Lex } from "@piggo-gg/lex"
 
 type Update = () => void
 
-export type LaxElementProps = {
+export type LexElementProps = {
   style?: Partial<CSS>
   update?: Update
   callbacks?: {
@@ -10,11 +10,11 @@ export type LaxElementProps = {
     onPointerOver?: () => void
     onPointerOut?: () => void
   },
-  children?: LaxElement[]
+  children?: LexElement[]
 }
 
-export type LaxElement<E extends HTMLElement = HTMLElement> = {
-  lax: Lax | undefined
+export type LexElement<E extends HTMLElement = HTMLElement> = {
+  lex: Lex | undefined
   e: E
   update: undefined | Update
   callbacks: undefined | {
@@ -22,10 +22,10 @@ export type LaxElement<E extends HTMLElement = HTMLElement> = {
     onPointerOver?: () => void
     onPointerOut?: () => void
   },
-  children: LaxElement[]
+  children: LexElement[]
 }
 
-export const LaxElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LaxElementProps): LaxElement<E> => {
+export const LexElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LexElementProps): LexElement<E> => {
   const element = document.createElement(tag) as E
 
   Object.assign(element.style, defaults)
@@ -48,7 +48,7 @@ export const LaxElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameM
   }
 
   return {
-    lax: undefined,
+    lex: undefined,
     e: element,
     update: props.update,
     callbacks: props.callbacks,
@@ -56,12 +56,12 @@ export const LaxElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameM
   }
 }
 
-export type LaxDiv = LaxElement<HTMLDivElement>
-export type LaxCanvas = LaxElement<HTMLCanvasElement>
-export type LaxImage = LaxElement<HTMLImageElement>
-export type LaxAnchor = LaxElement<HTMLAnchorElement>
+export type LexDiv = LexElement<HTMLDivElement>
+export type LexCanvas = LexElement<HTMLCanvasElement>
+export type LexImage = LexElement<HTMLImageElement>
+export type LexAnchor = LexElement<HTMLAnchorElement>
 
-export const LaxDiv = LaxElement<HTMLDivElement>("div", {
+export const LexDiv = LexElement<HTMLDivElement>("div", {
   position: "absolute",
   scrollbarWidth: "none",
   msOverflowStyle: "none",
@@ -69,13 +69,13 @@ export const LaxDiv = LaxElement<HTMLDivElement>("div", {
   touchAction: "none"
 })
 
-export const LaxCanvas = LaxElement<HTMLCanvasElement>("canvas", {
+export const LexCanvas = LexElement<HTMLCanvasElement>("canvas", {
   position: "absolute",
   outline: "none",
   touchAction: "none"
 })
 
-export const LaxImage = LaxElement<HTMLImageElement>("img", {
+export const LexImage = LexElement<HTMLImageElement>("img", {
   position: "absolute",
   outline: "none",
   touchAction: "none",
@@ -83,7 +83,7 @@ export const LaxImage = LaxElement<HTMLImageElement>("img", {
   pointerEvents: "none"
 })
 
-export const LaxAnchor = LaxElement<HTMLAnchorElement>("a", {
+export const LexAnchor = LexElement<HTMLAnchorElement>("a", {
   position: "absolute",
   outline: "none",
   touchAction: "none"

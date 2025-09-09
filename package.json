@@ -1,12 +1,25 @@
 {
-  "name": "lax",
+  "name": "@piggo-gg/lex",
   "module": "main.ts",
   "type": "module",
+  "version": "1.0.3",
+  "description": "a small web runtime — write your entire webapp with TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexanderclarktx/lex.git"
+  },
+  "private": false,
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "b": "git checkout main && git pull && git branch -D $(whoami) ; git checkout -b $(whoami)",
     "dev": "bun dev-compile & bun dev-serve",
     "dev-compile": "bun build docs/*.ts --outdir docs --minify --watch",
-    "dev-serve": "bun run --hot docs/*.html"
+    "dev-serve": "bun run --hot docs/index.html"
   },
   "dependencies": {
     "typescript": "5.8.3"
