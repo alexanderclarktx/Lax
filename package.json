@@ -2,7 +2,7 @@
   "name": "@piggo-gg/lex",
   "module": "main.ts",
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a small web runtime — write your entire webapp with TypeScript",
   "license": "MIT",
   "repository": {
