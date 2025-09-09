@@ -2,7 +2,12 @@
   "name": "@piggo-gg/lex",
   "module": "main.ts",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "a small web runtime — write your entire webapp with TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexanderclarktx/lex.git"
+  },
   "private": false,
   "main": "dist/main.js",
   "types": "dist/index.d.ts",
