@@ -2,7 +2,7 @@
   "name": "@piggo-gg/lex",
   "module": "main.ts",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a small web runtime — write your entire webapp with TypeScript",
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
   },
   "private": false,
   "main": "dist/main.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/main.d.ts",
   "files": [
     "dist",
     "README.md"
