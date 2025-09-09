@@ -4,6 +4,7 @@
   "type": "module",
   "version": "1.0.3",
   "description": "a small web runtime — write your entire webapp with TypeScript",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexanderclarktx/lex.git"
