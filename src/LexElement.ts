@@ -11,6 +11,7 @@ export type LexElementProps = {
     onPointerOut?: () => void
   },
   children?: LexElement[]
+  // todo text
 }
 
 export type LexElement<E extends HTMLElement = HTMLElement> = {
@@ -25,7 +26,7 @@ export type LexElement<E extends HTMLElement = HTMLElement> = {
   children: LexElement[]
 }
 
-export const LexElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LexElementProps): LexElement<E> => {
+export const LexElement = <E extends HTMLElement>(tag: keyof HTMLElementTagNameMap, defaults: CSS) => (props: LexElementProps = {}): LexElement<E> => {
   const element = document.createElement(tag) as E
 
   Object.assign(element.style, defaults)

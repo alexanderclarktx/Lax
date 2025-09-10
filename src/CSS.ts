@@ -16,7 +16,7 @@ export type CSS = Partial<{
   flexDirection: "row" | "column" | "row-reverse" | "column-reverse"
   flexShrink: 0 | 1 | 2
   float: "left" | "right" | "none"
-  fontFamily: "Courier New" | "Arial"
+  fontFamily: "Courier New" | "Arial" | "sans-serif"
   fontSize: `${number}px` | `${number}em`
   fontWeight: "normal" | "bold" | "bolder" | "lighter"
   height: `${number}px` | `${number}%` | "auto" | `${number}vh` | `${number}dvh` | `calc(${string})`
@@ -53,6 +53,7 @@ export type CSS = Partial<{
   touchAction: "none" | "pan-x" | "pan-y" | "pan-x pan-y" | "manipulation" | "auto"
   transform: `translate(${number}%)` | `translate(${number}%, ${number}%)`
   userSelect: "none" | "auto" | "text" | "all"
+  verticalAlign: `${number}%`
   visibility: "visible" | "hidden"
   whiteSpace: "normal" | "nowrap" | "pre" | "pre-wrap" | "pre-line"
   width: `${number}px` | `${number}%` | "auto" | `${number}vw`
